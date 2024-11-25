@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>User Dashboard</title>
 </head>
 <body>
-    this is for crud
+    <h3>Welcome to your dashboard,</h3>
+    <h1> {{ Auth::user()->name }}!</h1>
 </body>
 </html>
