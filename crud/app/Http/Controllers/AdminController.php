@@ -41,16 +41,25 @@ return response()->json(['data' => $response]);
 
     public function deleteUser($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->back()->with('message', 'User deleted successfully');
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+            return response()->json(['success' => true, 'message' => 'User deleted successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
+    public function editUser($id)
+    {
+        $user = User::findOrFail($id); // Fetch user by ID
+        return view('auth.edit', compact('user')); // Return the edit view
     }
 
     public function updateUser(Request $request, $id)
     {
         $user = User::findOrFail($id);
         $user->update($request->all());
-        return redirect()->back()->with('message', 'User updated successfully');
+        return redirect("/admin/dashboard")->with('message', 'User updated successfully');
     }
 
 }

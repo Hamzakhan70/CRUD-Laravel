@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 </head>
 <body>
     <h1>Admin Dashboard</h1>
-
+    {{-- @if (session('message'))
+    <span class="alert alert-success">{$message}</span>
+    @endif --}}
     <table id="users-table" class="display">
         <thead>
             <tr>
@@ -61,9 +65,12 @@
                 $.ajax({
                     url: '/admin/users/' + userId,
                     type: 'DELETE',
+                    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+    },
                     success: function(result) {
                         alert('User deleted successfully!');
-                        $('#users-table').DataTable().ajax.reload(); // Reload DataTable
+                        $('#users-table').DataTable().ajax.reload();
                     }
                 });
             }
@@ -72,7 +79,7 @@
         $(document).on('click', '.edit-user', function(e) {
             e.preventDefault();
             var userId = $(this).data('id');
-            window.location.href = '/admin/users/' + userId + '/edit'; // Redirect to the edit user page
+            window.location.href = '/admin/users/' + userId + '/edit';
         });
     </script>
 </body>
